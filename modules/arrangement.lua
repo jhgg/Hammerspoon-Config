@@ -15,8 +15,8 @@ local function get_window(arrangement_table)
 end
 
 
-local function arrange(arrangement_table)
-    fnutils.map(arrangement_table, function(item)
+local function arrange(arrangement)
+    fnutils.map(arrangement, function(item)
 
         local window = get_window(item)
         if window == nil then
@@ -63,8 +63,16 @@ local function init_module()
     end
 
     for _, arrangement in ipairs(config.arrangements) do
-        hotkey.bind(arrangement.mods, arrangement.key, function()
+        if arrangement.key == nil then
+            error("Arrangement is missing a key")
+        end
+
+        hotkey.bind(arrangement.mash or { "cmd", "ctrl", "alt" }, arrangement.key, function()
             arrange(arrangement.arrangement)
+
+            if arrangement.alert == true then
+                hydra.alert("Arranged monitors with: " .. (arrangement.name or "unnamed arrangement"), 1.0)
+            end
         end)
     end
 end

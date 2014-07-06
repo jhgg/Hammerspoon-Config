@@ -1,5 +1,5 @@
 return {
     init = function()
-        hotkey.bind({ "cmd", "ctrl", "alt" }, "R", repl.open)
+        hotkey.bind(config:get("repl.mash", { "cmd", "ctrl", "alt" }), config:get("repl.key", "R"), repl.open)
     end
 }

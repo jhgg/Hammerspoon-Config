@@ -24,7 +24,9 @@ config.autolaunch = true
 -- Window arrangements.
 config.arrangements = {
     {
-        mods = { "cmd", "ctrl", "alt" },
+        name = "zen",
+        alert = true,
+        mash = { "cmd", "ctrl", "alt" },
         key = "A",
         arrangement = {
             {
