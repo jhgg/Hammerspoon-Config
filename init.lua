@@ -2,11 +2,10 @@
 -- Save this as ~/.hydra/init.lua and choose Reload Config from the menu
 
 local load = require('loader')
-local inspect = require('inspect')
-local find = load('find')
 local position = load('position')
 local monitors = load('monitors')
 local arrangement = load('arrangement')
+local config = load('config')
 
 if hydra.was_loaded == nil then
     hydra.was_loaded = true
@@ -50,56 +49,9 @@ for id, monitor in pairs(monitors) do
     end)
 end
 
-function frame_left_part(dimensions)
-    return {
-        x = dimensions.x,
-        y = dimensions.y,
-        h = dimensions.h,
-        w = dimensions.w / 2
-    }
-end
-
-function frame_right_part(dimensions)
-    return {
-        x = dimensions.x + dimensions.w / 2,
-        y = dimensions.y,
-        h = dimensions.h,
-        w = dimensions.w / 2
-    }
-end
-
-
-local arrangement_1 = {
-    {
-        app_title = "^Mail",
-        monitor = 1,
-        position = "full"
-    },
-    {
-        app_title = "^Slack",
-        monitor = 4,
-        position = "left"
-    },
-    {
-        app_title = "^Messages",
-        monitor = 4,
-        position = "bottom_right"
-    },
-    {
-        app_title = "^Skype",
-        monitor = 4,
-        position = "top_right"
-    },
-    {
-        app_title = "^Spotify",
-        monitor = 6,
-        position = "full"
-    }
-}
-
 
 hotkey.bind({"cmd", "ctrl", "alt"}, "A", function()
-    arrangement.arrange(arrangement_1)
+    arrangement.arrange(config.arrangements.default)
 end)
 
 
@@ -133,7 +85,7 @@ function updates.available(available)
 end
 
 -- Uncomment this if you want Hydra to make sure it launches at login
--- autolaunch.set(true)
+autolaunch.set(true)
 
 -- check for updates every week
 timer.new(timer.weeks(1), checkforupdates):start()

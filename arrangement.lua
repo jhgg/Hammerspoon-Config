@@ -33,24 +33,34 @@ function arrangement.arrange(arrangement_table)
             return
         end
 
-        if item.monitor == nil then
+        local monitor = item.monitor
+        local item_position = item.position
+
+        if monitor == nil then
             error("arrangement table does not have monitor")
         end
 
-        if item.position == nil then
+        if item_position == nil then
             error("arrangement table does not have position")
         end
 
-        if position[item.position] == nil then
-            error("position " .. item.position .. " is invalid.")
+        if monitors[monitor] == nil then
+            error("monitor " .. monitor .. " does not exist")
         end
 
-        if monitors[item.monitor] == nil then
-            error("monitor " .. item.monitor .. " does not exist")
+        if type(item_position) == "string" then
+            window:setframe(position[item_position](monitors[monitor].dimensions))
+
+        elseif type(item_position) == "function" then
+            window:setframe(monitors[monitor].dimensions:relative_to(item_position({
+                monitor = monitors[monitor],
+                window = window
+            })))
+
+        elseif type(item_position) == "table" then
+            window:setframe(monitors[monitor].dimensions:relative_to(item_position))
+
         end
-
-        window:setframe(position[item.position](monitors[item.monitor].dimensions))
-
     end)
 end
 

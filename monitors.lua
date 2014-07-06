@@ -1,16 +1,27 @@
---
--- Created by IntelliJ IDEA.
--- User: mac
--- Date: 7/5/14
--- Time: 11:26 PM
--- To change this template use File | Settings | File Templates.
---
+local config = require("loader")('config')
+
+local dimensions__proto = {}
+local dimensions__mt = { __index = dimensions__proto }
+
+function dimensions__proto:relative_to(position)
+    return {
+        w = position.w,
+        h = position.h,
+        x = self.x + position.x,
+        y = self.y + position.y
+    }
+end
+
 local function get_screen_dimensions(idx)
     local screen = screen.allscreens()[idx]
+    if screen == nil then
+        error("Cannot find screen with index " .. idx)
+    end
+
     local dim = screen:visibleframe()
     local frame = screen:frame()
 
-    return {
+    local dimensions = {
         w = dim.w,
         h = dim.h,
         x = dim.x,
@@ -22,26 +33,17 @@ local function get_screen_dimensions(idx)
             y = -frame.y
         }
     }
+
+    setmetatable(dimensions, dimensions__mt)
+    return dimensions
 end
 
-return {
-    [1] = {
-        dimensions = get_screen_dimensions(2)
-    },
-    [2] = {
-        dimensions = get_screen_dimensions(1)
-    },
-    [3] = {
-        dimensions = get_screen_dimensions(3)
-    },
-    [4] = {
-        dimensions = get_screen_dimensions(5)
-    },
-    [5] = {
-        dimensions = get_screen_dimensions(6)
-    },
-    [6] = {
-        dimensions = get_screen_dimensions(4)
-    },
-}
+local monitors = {}
 
+for i, v in ipairs(config.monitors) do
+    monitors[i] = {
+        dimensions = get_screen_dimensions(v)
+    }
+end
+
+return monitors
