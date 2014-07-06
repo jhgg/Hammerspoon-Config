@@ -1,5 +1,3 @@
-local config = require("loader")('config')
-
 local dimensions__proto = {}
 local dimensions__mt = { __index = dimensions__proto }
 

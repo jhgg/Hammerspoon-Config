@@ -1,19 +1,8 @@
---
--- Created by IntelliJ IDEA.
--- User: mac
--- Date: 7/6/14
--- Time: 12:51 AM
--- To change this template use File | Settings | File Templates.
---
+local find = import('utils/find')
+local monitors = import('utils/monitors')
+local position = import('utils/position')
 
-local load = require('loader')
-local find = load('find')
-local monitors = load('monitors')
-local position = load('position')
-
-local arrangement = {}
-
-function get_window(arrangement_table)
+local function get_window(arrangement_table)
     if arrangement_table.app_title ~= nil then
         return find.window.by_application_title(arrangement_table.app_title)
     end
@@ -26,8 +15,9 @@ function get_window(arrangement_table)
 end
 
 
-function arrangement.arrange(arrangement_table)
+local function arrange(arrangement_table)
     fnutils.map(arrangement_table, function(item)
+
         local window = get_window(item)
         if window == nil then
             return
@@ -60,8 +50,24 @@ function arrangement.arrange(arrangement_table)
         elseif type(item_position) == "table" then
             window:setframe(monitors[monitor].dimensions:relative_to(item_position))
 
+        else
+            error("position cannot be a " .. type(item_position))
         end
     end)
 end
 
-return arrangement
+local function init_module()
+    if config.arrangements == nil then
+        alert("Arrangements has no available configs, set in config.arrangements")
+    end
+
+    for _, arrangement in ipairs(config.arrangements) do
+        hotkey.bind(arrangement.mods, arrangement.key, function()
+            arrange(arrangement.arrangement)
+        end)
+    end
+end
+
+return {
+    init = init_module
+}

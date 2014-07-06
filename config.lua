@@ -1,6 +1,12 @@
-
 local config = {}
 
+config.modules = {
+    "arrangement",
+    "monitors",
+    "repl",
+    "updates",
+    "reload"
+}
 
 -- Maps monitor id -> screen index.
 config.monitors = {
@@ -12,34 +18,40 @@ config.monitors = {
     [6] = 4
 }
 
-config.arrangements = {}
+config.autolaunch = true
 
--- Arrangement to use.
-config.arrangements.default = {
+-- Window arrangements.
+config.arrangements = {
     {
-        app_title = "^Mail",
-        monitor = 1,
-        position = "full"
-    },
-    {
-        app_title = "^Slack",
-        monitor = 4,
-        position = "left"
-    },
-    {
-        app_title = "^Messages",
-        monitor = 4,
-        position = "bottom_right"
-    },
-    {
-        app_title = "^Skype",
-        monitor = 4,
-        position = "top_right"
-    },
-    {
-        app_title = "^Spotify",
-        monitor = 6,
-        position = "full"
+        mods = { "cmd", "ctrl", "alt" },
+        key = "A",
+        arrangement = {
+            {
+                app_title = "^Mail",
+                monitor = 1,
+                position = "full"
+            },
+            {
+                app_title = "^Slack",
+                monitor = 4,
+                position = "left"
+            },
+            {
+                app_title = "^Messages",
+                monitor = 4,
+                position = "bottom_right"
+            },
+            {
+                app_title = "^Skype",
+                monitor = 4,
+                position = "top_right"
+            },
+            {
+                app_title = "^Spotify",
+                monitor = 6,
+                position = "full"
+            }
+        }
     }
 }
 

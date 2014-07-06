@@ -1,13 +1,8 @@
---
--- Created by IntelliJ IDEA.
--- User: mac
--- Date: 7/6/14
--- Time: 12:56 AM
--- To change this template use File | Settings | File Templates.
---
+-- Functions to calculate positioning of a window.
 
 local position = {}
 
+-- Left half.
 function position.left(d)
     return {
         x = d.x,
@@ -17,6 +12,7 @@ function position.left(d)
     }
 end
 
+-- Right half
 function position.right(d)
     return {
         x = d.x + d.w / 2,
@@ -26,6 +22,7 @@ function position.right(d)
     }
 end
 
+-- Top half
 function position.top(d)
     return {
         x = d.x,
@@ -35,6 +32,7 @@ function position.top(d)
     }
 end
 
+-- Bottom half
 function position.bottom(d)
     local top_offset = d.f.h - d.h
     return {
@@ -45,6 +43,7 @@ function position.bottom(d)
     }
 end
 
+-- Top left quarter
 function position.top_left(d)
     return {
         x = d.x,
@@ -54,6 +53,7 @@ function position.top_left(d)
     }
 end
 
+-- Top right quarter
 function position.top_right(d)
     return {
         x = d.x + d.w / 2,
@@ -63,6 +63,7 @@ function position.top_right(d)
     }
 end
 
+-- Bottom left quarter
 function position.bottom_left(d)
     local top_offset = d.f.h - d.h
     return {
@@ -73,6 +74,7 @@ function position.bottom_left(d)
     }
 end
 
+-- Bottom right quarter
 function position.bottom_right(d)
     local top_offset = d.f.h - d.h
     return {
@@ -83,6 +85,7 @@ function position.bottom_right(d)
     }
 end
 
+-- Full screen
 function position.full(d)
     return {
         x = d.x,
@@ -92,6 +95,7 @@ function position.full(d)
     }
 end
 
+-- Left 1/3rd.
 function position.left_third(d)
     return {
         x = d.x,
@@ -101,6 +105,7 @@ function position.left_third(d)
     }
 end
 
+-- Left 2/3rd
 function position.left_two_thirds(d)
     return {
         x = d.x,
@@ -110,6 +115,7 @@ function position.left_two_thirds(d)
     }
 end
 
+-- Right 1/3rd
 function position.right_third(d)
     return {
         x = d.x + ((d.w / 3) * 2),
@@ -119,6 +125,7 @@ function position.right_third(d)
     }
 end
 
+-- Right 2/3rds.
 function position.right_two_thirds(d)
     return {
         x = d.x + (d.w / 3),
