@@ -63,7 +63,7 @@ menu.show(function()
     return menu
 end)
 
-autolaunch.set(config.autolaunch == true)
+autolaunch.set(config:get("autolaunch", false))
 
 local buf = {}
 
