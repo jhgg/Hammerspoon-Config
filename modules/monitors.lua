@@ -11,17 +11,23 @@ local function init_module()
 
         hotkey.bind({ "cmd", "ctrl", "alt" }, "PAD" .. id, function()
             local win = window.focusedwindow()
-            win:setframe(position.full(monitor.dimensions))
+            if win ~= nil then
+                win:setframe(position.full(monitor.dimensions))
+            end
         end)
 
         hotkey.bind({ "ctrl", "alt" }, "PAD" .. id, function()
             local win = window.focusedwindow()
-            win:setframe(position.top(monitor.dimensions))
+            if win ~= nil then
+                win:setframe(position.left(monitor.dimensions))
+            end
         end)
 
         hotkey.bind({ "cmd", "alt" }, "PAD" .. id, function()
             local win = window.focusedwindow()
-            win:setframe(position.bottom_left(monitor.dimensions))
+            if win ~= nil then
+                win:setframe(position.right(monitor.dimensions))
+            end
         end)
     end
 end

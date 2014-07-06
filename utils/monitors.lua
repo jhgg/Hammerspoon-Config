@@ -30,11 +30,8 @@ function dimensions__proto:translate_from(position_func, translation_table)
     return position
 end
 
-local function get_screen_dimensions(idx)
-    local screen = screen.allscreens()[idx]
-    if screen == nil then
-        error("Cannot find screen with index " .. idx)
-    end
+
+local function get_screen_dimensions(screen)
 
     local dim = screen:visibleframe()
     local frame = screen:frame()
@@ -56,11 +53,24 @@ local function get_screen_dimensions(idx)
     return dimensions
 end
 
-local monitors = {}
+local function get_screen_dimensions_at_index(index)
+    local screen = screen.allscreens()[index]
+    if screen == nil then
+        error("Cannot find screen with index " .. index)
+    end
+
+    return get_screen_dimensions(screen)
+
+end
+
+local monitors = {
+    get_screen_dimensions = get_screen_dimensions,
+    configured_monitors = {}
+}
 
 for i, v in ipairs(config.monitors) do
-    monitors[i] = {
-        dimensions = get_screen_dimensions(v)
+    monitors.configured_monitors[i] = {
+        dimensions = get_screen_dimensions_at_index(v)
     }
 end
 

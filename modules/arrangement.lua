@@ -1,5 +1,5 @@
 local find = import('utils/find')
-local monitors = import('utils/monitors')
+local monitors = import('utils/monitors').configured_monitors
 local position = import('utils/position')
 
 local function get_window(arrangement_table)
