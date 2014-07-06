@@ -39,7 +39,12 @@ config.arrangements = {
             {
                 app_title = "^Messages",
                 monitor = 4,
-                position = "bottom_right"
+                position = function(d)
+                    return d:translate_from('bottom_right', {
+                        y = 42,
+                        h = -40
+                    })
+                end
             },
             {
                 app_title = "^Skype",

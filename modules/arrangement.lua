@@ -42,9 +42,10 @@ local function arrange(arrangement_table)
             window:setframe(position[item_position](monitors[monitor].dimensions))
 
         elseif type(item_position) == "function" then
-            window:setframe(monitors[monitor].dimensions:relative_to(item_position({
+            window:setframe(monitors[monitor].dimensions:relative_to(item_position(monitors[monitor].dimensions, {
                 monitor = monitors[monitor],
-                window = window
+                window = window,
+                position = position
             })))
 
         elseif type(item_position) == "table" then
