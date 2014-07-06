@@ -57,26 +57,59 @@ local function arrange(arrangement)
     end)
 end
 
+local function handle_arrangement(arrangement)
+    arrange(arrangement.arrangement)
+
+    if arrangement.alert == true then
+        hydra.alert("Arranged monitors with: " .. (arrangement.name or "unnamed arrangement"), 1.0)
+    end
+end
+
 local function init_module()
     if config.arrangements == nil then
-        alert("Arrangements has no available configs, set in config.arrangements")
+        notify.show("Arrangements has no available configs", "", "Set some configs set in config.arrangements or unload this module", "")
+        return
     end
 
     for _, arrangement in ipairs(config.arrangements) do
-        if arrangement.key == nil then
-            error("Arrangement is missing a key")
+        if arrangement.key == nil and arrangement.menu ~= true then
+            error("Arrangement is missing a key value, and isn't bound to the menu.")
         end
 
-        hotkey.bind(arrangement.mash or { "cmd", "ctrl", "alt" }, arrangement.key, function()
-            arrange(arrangement.arrangement)
+        if arrangement.key ~= nil then
+            hotkey.bind(arrangement.mash or { "cmd", "ctrl", "alt" }, arrangement.key, function()
+                handle_arrangement(arrangement)
+            end)
+        end
+    end
+end
 
-            if arrangement.alert == true then
-                hydra.alert("Arranged monitors with: " .. (arrangement.name or "unnamed arrangement"), 1.0)
-            end
-        end)
+local function init_menu()
+    if config.arrangements == nil then
+        return
+    end
+
+    local menu = {}
+
+    for _, arrangement in ipairs(config.arrangements) do
+        if arrangement.menu == true then
+            table.insert(menu, {
+                title = "Arrange: " .. arrangement.name,
+                fn = function()
+                    handle_arrangement(arrangement)
+                end
+            })
+        end
+    end
+
+    if #menu > 0 then
+        return fnutils.concat(menu, { { title = "-" } })
+    else
+        return menu
     end
 end
 
 return {
-    init = init_module
+    init = init_module,
+    menu = init_menu
 }

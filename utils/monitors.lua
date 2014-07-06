@@ -68,7 +68,7 @@ local monitors = {
     configured_monitors = {}
 }
 
-for i, v in ipairs(config.monitors) do
+for i, v in ipairs(config:get("monitors", {})) do
     monitors.configured_monitors[i] = {
         dimensions = get_screen_dimensions_at_index(v)
     }
