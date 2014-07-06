@@ -2,7 +2,7 @@ local position = import('utils/position')
 local monitors = import('utils/monitors')
 
 local function init_module()
-    for id, monitor in pairs(monitors) do
+    for id, monitor in pairs(monitors.configured_monitors) do
 
         hotkey.bind({ "cmd", "ctrl" }, "PAD" .. id, function()
             local midpoint = geometry.rectmidpoint(monitor.dimensions)
