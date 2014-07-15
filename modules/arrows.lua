@@ -8,7 +8,10 @@ local function module_init()
         DOWN = "bottom",
         LEFT = "left",
         RIGHT = "right",
-        SPACE = "full"
+        SPACE = "full",
+        PAD7 = "left_third",
+        PAD8 = "middle_third",
+        PAD9 = "right_third",
     })
 
     for key, position_string in pairs(keys) do

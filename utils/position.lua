@@ -102,6 +102,16 @@ function position.left_third(d)
     }
 end
 
+-- Left 1/3rd.
+function position.middle_third(d)
+    return {
+        x = d.x + (d.w / 3),
+        y = d.y,
+        h = d.h,
+        w = d.w / 3
+    }
+end
+
 -- Left 2/3rd
 function position.left_two_thirds(d)
     return {
