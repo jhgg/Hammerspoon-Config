@@ -34,10 +34,9 @@ end
 
 -- Bottom half
 function position.bottom(d)
-    local top_offset = d.f.h - d.h
     return {
         x = d.x,
-        y = top_offset + d.y + d.h / 2,
+        y = d.y + d.h / 2,
         h = d.h / 2,
         w = d.w
     }
@@ -65,10 +64,9 @@ end
 
 -- Bottom left quarter
 function position.bottom_left(d)
-    local top_offset = d.f.h - d.h
     return {
         x = d.x,
-        y = top_offset + d.y + d.h / 2,
+        y = d.y + d.h / 2,
         h = d.h / 2,
         w = d.w / 2
     }
@@ -76,10 +74,9 @@ end
 
 -- Bottom right quarter
 function position.bottom_right(d)
-    local top_offset = d.f.h - d.h
     return {
         x = d.x + d.w / 2,
-        y = top_offset + d.y + d.h / 2,
+        y = d.y + d.h / 2,
         h = d.h / 2,
         w = d.w / 2
     }

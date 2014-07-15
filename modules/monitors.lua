@@ -29,6 +29,12 @@ local function init_module()
                 win:setframe(position.right(monitor.dimensions))
             end
         end)
+        hotkey.bind({ "shift", "ctrl", "alt" }, "PAD" .. id, function()
+            local win = window.focusedwindow()
+            if win ~= nil then
+                win:setframe(monitor.dimensions:relative_window_position(win))
+            end
+        end)
     end
 end
 
