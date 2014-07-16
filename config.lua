@@ -47,9 +47,13 @@ config.arrangements = {
                 end
             },
             {
-                app_title = "^Skype",
+                app_title = "^ChronoMate",
                 monitor = 4,
-                position = "top_right"
+                position = function(d)
+                    return d:translate_from('top_right', {
+                        h = 42
+                    })
+                end
             },
             {
                 app_title = "^Spotify",
