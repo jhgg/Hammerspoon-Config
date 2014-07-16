@@ -6,7 +6,8 @@ config.modules = {
     "repl",
     "updates",
     "reload",
-    "arrows"
+    "arrows",
+    "lock"
 }
 
 -- Maps monitor id -> screen index.
