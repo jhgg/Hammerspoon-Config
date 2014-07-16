@@ -1,6 +1,7 @@
 local find = {
     window = {},
-    windows = {}
+    windows = {},
+    audio_device = {}
 }
 
 function find.window.by_title(title)
@@ -27,6 +28,11 @@ function find.windows.by_application_title(title)
     end)
 end
 
+function find.audio_device.by_name(name)
+    return fnutils.find(audio.alloutputdevices(), function(device)
+        return string.match(audio:name(), name) ~= nil
+    end)
+end
 
 return find
 
