@@ -38,8 +38,27 @@ local function arrange(arrangement)
             error("monitor " .. monitor .. " does not exist")
         end
 
+        local win_full = window:isfullscreen()
+
+        if item_position ~= "full_screen" and win_full then
+                    window:setfullscreen(false)
+        end
+
         if type(item_position) == "string" then
-            window:setframe(position[item_position](monitors[monitor].dimensions))
+
+            if item_position == "full_screen" then
+                window:setframe(monitors[monitor].dimensions.f)
+
+                if not win_full then
+                    window:setfullscreen(true)
+                end
+
+            else
+
+                window:setframe(position[item_position](monitors[monitor].dimensions))
+            end
+
+
 
         elseif type(item_position) == "function" then
             window:setframe(monitors[monitor].dimensions:relative_to(item_position(monitors[monitor].dimensions, {

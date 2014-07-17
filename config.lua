@@ -7,7 +7,8 @@ config.modules = {
     "updates",
     "reload",
     "arrows",
-    "lock"
+    "lock",
+    "test"
 }
 
 -- Maps monitor id -> screen index.
@@ -29,7 +30,7 @@ config.arrangements = {
             {
                 app_title = "^Mail",
                 monitor = 1,
-                position = "full"
+                position = "full_screen",
             },
             {
                 app_title = "^Slack",
@@ -58,7 +59,7 @@ config.arrangements = {
             {
                 app_title = "^Spotify",
                 monitor = 6,
-                position = "full"
+                position = "full_screen",
             }
         }
     }
