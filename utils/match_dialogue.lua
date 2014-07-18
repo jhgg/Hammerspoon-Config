@@ -83,6 +83,8 @@ end
 function match_dialogue__proto:show()
     local grid = self:get_textgrid_singleton()
     self.charbuf = {}
+    self:clear_drawbuf()
+    self:__redraw()
 
     grid:show()
     grid:window():focus()
