@@ -118,10 +118,6 @@ function match_dialogue__proto:__init_text_grid()
 end
 
 function match_dialogue__proto:__text_grid_keydown(e)
-    if e.key == "\x1b" then
-        e.key = "escape"
-    end
-
     local handler = match_dialogue__keyhandlers[e.key]
     if handler == nil then
         handler = match_dialogue__keyhandlers.insert_char
@@ -235,6 +231,28 @@ function match_dialogue__keyhandlers:delete()
     self:update()
 end
 
+function match_dialogue__keyhandlers:up()
+    if #self.matches then
+        self.current_match_index = self.current_match_index + 1
+        if self.current_match_index > #self.matches then
+            self.current_match_index = 1
+        end
+        self:fill_drawbuf_with_current_match()
+        self:__redraw()
+    end
+end
+
+function match_dialogue__keyhandlers:down()
+    if #self.matches then
+        self.current_match_index = self.current_match_index - 1
+        if self.current_match_index < 1 then
+            self.current_match_index = #self.matches
+        end
+        self:fill_drawbuf_with_current_match()
+        self:__redraw()
+    end
+end
+
 function match_dialogue__keyhandlers:escape()
     self:hide()
 end
@@ -248,5 +266,6 @@ function match_dialogue__keyhandlers:return_()
 end
 
 match_dialogue__keyhandlers['return'] = match_dialogue__keyhandlers.return_
+match_dialogue__keyhandlers['"\x1b"'] = match_dialogue__keyhandlers.escape
 
 return match_dialogue_new

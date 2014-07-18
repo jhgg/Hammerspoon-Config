@@ -9,7 +9,7 @@ config.modules = {
     "arrows",
     "lock",
     "fullscreen",
-    "test"
+    "app_selector"
 }
 
 -- Maps monitor id -> screen index.
