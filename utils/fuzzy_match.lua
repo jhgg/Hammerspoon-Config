@@ -9,7 +9,7 @@ local function fuzzy_match(needle, haystack)
 
     for i = 1, #haystack do
         local haystack_char = haystack:sub(i, i)
-        if haystack_char == last_needle_char then
+        if haystack_char == last_needle_char and last_needle_char ~= needle_char then
             match_indexes[#match_indexes] = i
 
         elseif haystack_char == needle_char then
