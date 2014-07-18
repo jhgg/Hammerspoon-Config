@@ -20,7 +20,9 @@ I've written a few utilities to take care of some general purpose functionality:
  * `utils/import.lua` - My own take of require() with its own cache. Use `import` everywhere you would have used `require`. `init.lua` takes care of clearing the cache, each reload, so you don't have to worry.
  * `utils/inspect.lua` - Table inspector from http://github.com/kikito/inspect.lua
  * `utils/monitors.lua` - Monitor detection & window positioning helpers.
- * `utils/position.lua` - Functions to resize a window within a screen. 
+ * `utils/position.lua` - Functions to resize a window within a screen.
+ * `utils/fuzzy_match.lua` - A shitty fuzzy matching & scoring function.
+ * `utils/match_dialgoue.lua` - Utility to create a specialized text view that can be used to do fuzzy match navigating (or menus or whatever.. see `utils/fuzzy_match.lua`, and `modules/app_selector.lua`).
  
 ### Modules 
 A few modules to handle stuff I needed hydra to do:
@@ -32,3 +34,5 @@ A few modules to handle stuff I needed hydra to do:
 * `modules/arrows.lua` - Handles positioning a window on the current screen.
 * `modules/monitors.lua` - Handles moving windows between screens. 
 * `modules/arrangement.lua` - Handles building window arrangements, that arrange windows on multiple screens. I use this to move windows to different monitors automatically.
+* `modules/app_selector.lua` - Focus windows by fuzzy matching their titles. Uses `utils/match_dialogue`.
+* `modules/fullscreen.lua` - Universal shortcut to toggle full screen.
