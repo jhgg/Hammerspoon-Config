@@ -126,14 +126,14 @@ function match_dialogue__proto:__init_text_grid()
         w = self.opts.matcher_window_width,
         h = 1
     })
-    grid:keydown(partial(self.__text_grid_keydown, self))
+    grid:keydown(fnutils.partial(self.__text_grid_keydown, self))
     grid:center()
 
     return grid
 end
 
 function match_dialogue__proto:__text_grid_keydown(e)
-    if self.__maybe_call_fn('keydown_override_fn', e) then
+    if self:__maybe_call_fn('keydown_override_fn', e) then
         return
     end
 
@@ -240,6 +240,8 @@ end
 
 function match_dialogue__keyhandlers:insert_char(e)
     if #self.charbuf >= self.opts.matcher_window_width then return end
+    if #e.key ~= 1 then return end
+
     self.charbuf[#self.charbuf + 1] = e.key
     self:update()
 end

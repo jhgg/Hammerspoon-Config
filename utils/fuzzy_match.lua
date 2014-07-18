@@ -1,14 +1,14 @@
 local function fuzzy_match(needle, haystack)
     local needle_idx = 1
 
-    needle = needle:lower()
-    haystack = haystack:lower()
-    local needle_char = needle:sub(needle_idx, needle_idx)
+    needle = utf8.chars(needle:lower())
+    haystack = utf8.chars(haystack:lower())
+    local needle_char = needle[needle_idx]
     local last_needle_char
     local match_indexes = {}
 
     for i = 1, #haystack do
-        local haystack_char = haystack:sub(i, i)
+        local haystack_char = haystack[i]
         if haystack_char == last_needle_char and last_needle_char ~= needle_char then
             match_indexes[#match_indexes] = i
 
@@ -19,7 +19,7 @@ local function fuzzy_match(needle, haystack)
                 break
             end
             last_needle_char = needle_char
-            needle_char = needle:sub(needle_idx, needle_idx)
+            needle_char = needle[needle_idx]
         end
     end
 

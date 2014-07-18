@@ -58,8 +58,6 @@ local function arrange(arrangement)
                 window:setframe(position[item_position](monitors[monitor].dimensions))
             end
 
-
-
         elseif type(item_position) == "function" then
             window:setframe(monitors[monitor].dimensions:relative_to(item_position(monitors[monitor].dimensions, {
                 monitor = monitors[monitor],
