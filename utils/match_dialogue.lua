@@ -266,6 +266,6 @@ function match_dialogue__keyhandlers:return_()
 end
 
 match_dialogue__keyhandlers['return'] = match_dialogue__keyhandlers.return_
-match_dialogue__keyhandlers['"\x1b"'] = match_dialogue__keyhandlers.escape
+match_dialogue__keyhandlers["\x1b"] = match_dialogue__keyhandlers.escape
 
 return match_dialogue_new
