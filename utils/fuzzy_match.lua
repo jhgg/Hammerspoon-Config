@@ -33,7 +33,8 @@ end
 local function fuzzy_score(needle, haystack, match_indexes)
     local match_difs = 0
     for i = 1, #match_indexes - 1 do
-        match_difs = match_difs + match_indexes[i + 1] - match_indexes[i]
+        local s = match_indexes[i + 1] - match_indexes[i]
+        match_difs = match_difs + s
     end
 
     return match_difs

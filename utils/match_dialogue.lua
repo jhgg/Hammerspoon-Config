@@ -6,11 +6,11 @@ local default_opts = {
     scoring_fn = default_matcher.score,
 
     -- Hookable functions
-    before_grid_init_fn = nil, -- Called before the textgrid is initialized for the first time.xx
-    after_grid_init_fn = nil, -- Called after the textgrid is initialized for the first time.xx
+    before_grid_init_fn = nil, -- Called before the textgrid is initialized for the first time.
+    after_grid_init_fn = nil, -- Called after the textgrid is initialized for the first time.
 
-    before_grid_show_fn = nil, -- Called before the grid is shown.xx
-    after_grid_show_fn = nil, -- Called after the grid is shown.xx
+    before_grid_show_fn = nil, -- Called before the grid is shown.
+    after_grid_show_fn = nil, -- Called after the grid is shown.
 
     before_grid_hide_fn = nil, -- Called before the grid is hidden.
     after_grid_hide_fn = nil, -- Called after the grid is hidden.
@@ -73,31 +73,46 @@ function match_dialogue__proto:init(data_source_fn, match_selected_fn,  opts)
     return self
 end
 
+function match_dialogue__proto:__maybe_call_fn(fn, ...)
+    if self.opts[fn] ~= nil then
+        return self.opts[fn](self, ...)
+    end
+end
+
 function match_dialogue__proto:get_textgrid_singleton()
     if self.__text_grid == nil then
+        self:__maybe_call_fn('before_grid_init_fn')
         self.__text_grid = self:__init_text_grid()
+        self:__maybe_call_fn('after_grid_init_fn', self.__text_grid)
+
     end
     return self.__text_grid
 end
 
 function match_dialogue__proto:show()
     local grid = self:get_textgrid_singleton()
+    self:__maybe_call_fn('before_grid_show_fn', grid)
     self.charbuf = {}
     self:clear_drawbuf()
     self:__redraw()
 
     grid:show()
     grid:window():focus()
+
+    self:__maybe_call_fn('after_grid_show_fn', grid)
 end
 
 function match_dialogue__proto:hide()
     local grid = self:get_textgrid_singleton()
+    self:__maybe_call_fn('before_grid_hide_fn', grid)
     self.charbuf = {}
     self.matches = {}
     self.data_to_match = nil
     self.current_match_index = nil
 
     grid:hide()
+
+    self:__maybe_call_fn('after_grid_hide_fn', grid)
 end
 
 function match_dialogue__proto:__init_text_grid()
@@ -118,6 +133,10 @@ function match_dialogue__proto:__init_text_grid()
 end
 
 function match_dialogue__proto:__text_grid_keydown(e)
+    if self.__maybe_call_fn('keydown_override_fn', e) then
+        return
+    end
+
     local handler = match_dialogue__keyhandlers[e.key]
     if handler == nil then
         handler = match_dialogue__keyhandlers.insert_char
