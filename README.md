@@ -19,7 +19,6 @@ I've written a few utilities to take care of some general purpose functionality:
 
  * `utils/find.lua` - Convenience methods for finding windows, and audio devices. 
  * `utils/import.lua` - My own take of require() with its own cache. Use `import` everywhere you would have used `require`. `init.lua` takes care of clearing the cache, each reload, so you don't have to worry.
- * `utils/inspect.lua` - Table inspector from http://github.com/kikito/inspect.lua
  * `utils/monitors.lua` - Monitor detection & window positioning helpers.
  * `utils/position.lua` - Functions to resize a window within a screen.
  * `utils/matchers/match.lua` - A shitty fuzzy matching & scoring function.

@@ -31,7 +31,7 @@ for _, v in ipairs(config.modules) do
 end
 
 
-menu.show(function()
+hydra.menu.show(function()
 
     local menu = {
         { title = "Reload Config", fn = hydra.reload },
@@ -63,7 +63,7 @@ menu.show(function()
     return menu
 end)
 
-autolaunch.set(config:get("autolaunch", false))
+hydra.autolaunch.set(config:get("autolaunch", false))
 
 local buf = {}
 
