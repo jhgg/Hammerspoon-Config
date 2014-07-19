@@ -1,8 +1,5 @@
 local function fuzzy_match(needle, haystack)
     local needle_idx = 1
-
-    needle = utf8.chars(needle:lower())
-    haystack = utf8.chars(haystack:lower())
     local needle_char = needle[needle_idx]
     local last_needle_char
     local match_indexes = {}

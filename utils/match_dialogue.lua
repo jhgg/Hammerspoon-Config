@@ -1,9 +1,11 @@
-local default_matcher = import('utils/matchers/fuzzy')
+local fuzzy_matcher = import('utils/matchers/fuzzy')
+local contains_matcher = import('utils/matchers/contains')
+local combinator = import('utils/matchers/combinator')
 
 local default_opts = {
     -- Matching functions
-    matching_fn = default_matcher.match,
-    scoring_fn = default_matcher.score,
+    matching_fn = combinator(contains_matcher.match, fuzzy_matcher.match),
+    scoring_fn = fuzzy_matcher.score,
 
     -- Hookable functions
     before_grid_init_fn = nil, -- Called before the textgrid is initialized for the first time.
@@ -189,9 +191,16 @@ end
 
 function match_dialogue__proto:match_and_score(needle)
     local matches = {}
+    needle = utf8.chars(needle:lower())
 
     for _, data in ipairs(self.data_to_match) do
-        local match_indexes = self.opts.matching_fn(needle, data.string)
+
+        if data._haystack_utf8 == nil then
+            data._haystack_utf8 = utf8.chars(data.string:lower())
+        end
+
+        local match_indexes = self.opts.matching_fn(needle, data._haystack_utf8)
+
         if match_indexes ~= nil and #match_indexes > 0 then
             local score = self.opts.scoring_fn(needle, data.string, match_indexes)
             table.insert(matches, {
