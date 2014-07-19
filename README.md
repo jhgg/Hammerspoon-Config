@@ -7,7 +7,7 @@ A more modular and extensible take on a Hydra configuration.
  
 I've opted against using the hydra.ext namespace, as I have written my own importer to take care of this. Ideally, everything should be erased, and re-loaded upon config reload. This is something hydra.ext doesn't really take care of in a way that I like.
 
-*NOTE*: This hydra config uses the latest features (some of which I contributed) to Hydra. If it does not work on the latest release of hydra, you'll need to compile the latest version of Hydra from git and run it yourself.
+**NOTE: This hydra config uses the latest features (some of which I contributed) to Hydra. If it does not work on the latest release of hydra, you'll need to compile the latest version of Hydra from git and run it yourself.**
 
 ### Important Files
 
