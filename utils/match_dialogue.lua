@@ -253,7 +253,7 @@ function match_dialogue__keyhandlers:delete()
 end
 
 function match_dialogue__keyhandlers:up()
-    if #self.matches then
+    if self.matches and #self.matches then
         self.current_match_index = self.current_match_index + 1
         if self.current_match_index > #self.matches then
             self.current_match_index = 1
@@ -264,7 +264,7 @@ function match_dialogue__keyhandlers:up()
 end
 
 function match_dialogue__keyhandlers:down()
-    if #self.matches then
+    if self.matches and #self.matches then
         self.current_match_index = self.current_match_index - 1
         if self.current_match_index < 1 then
             self.current_match_index = #self.matches
@@ -279,7 +279,7 @@ function match_dialogue__keyhandlers:escape()
 end
 
 function match_dialogue__keyhandlers:return_()
-    if #self.matches then
+    if self.matches and #self.matches then
         self.match_selected_fn(self.matches[self.current_match_index].data)
         self:hide()
     end
