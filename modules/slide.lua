@@ -1,5 +1,4 @@
 local nudge = import('utils/nudge')
-local monitors = import('utils/monitors')
 
 local function module_init()
     local mash = config:get("slide.mash", { "cmd", "ctrl", "alt" })
@@ -13,7 +12,7 @@ local function module_init()
     for key, direction_string in pairs(keys) do
         local nudge_fn = nudge[direction_string]
 
-        
+
         if nudge_fn == nil then
             error("arrow: " .. direction_string .. " is not a valid direction")
         end
@@ -29,9 +28,7 @@ local function module_init()
 
             win:setframe(newframe)
         end)
-
     end
-
 end
 
 return {

@@ -1,7 +1,7 @@
 local nudge = {}
+local step = config:get("nudge.step", 10)
 
 function nudge.up(d)
-   local step = config:get("slide.step", {10})
     return {
         x = d.x,
         y = d.y + step,
@@ -11,7 +11,6 @@ function nudge.up(d)
 end
 
 function nudge.taller(d)
-   local step = config:get("slide.step", 10)
     return {
         x = d.x,
         y = d.y,
@@ -21,27 +20,24 @@ function nudge.taller(d)
 end
 
 function nudge.shorter(d)
-    local step = config:get("slide.step", 10)
     return {
         x = d.x,
         h = math.max(d.h - step, 0),
         y = d.y,
-        w = d.w 
+        w = d.w
     }
 end
 
 function nudge.down(d)
-    local step = config:get("slide.step", 10)
     return {
         x = d.x,
         h = math.max(d.h - step, 0),
         y = y.h,
-        w = d.w 
+        w = d.w
     }
 end
 
 function nudge.wider(d)
-    local step = config:get("slide.step", 10)
     return {
         x = d.x,
         y = d.y,
@@ -51,7 +47,6 @@ function nudge.wider(d)
 end
 
 function nudge.left(d)
-    local step = config:get("slide.step", 10)
     return {
         x = math.max(d.x - step, 0),
         y = d.y,
@@ -61,7 +56,6 @@ function nudge.left(d)
 end
 
 function nudge.right(d)
-    local step = config:get("slide.step", 10)
     return {
         x = d.x + step,
         y = d.y,
@@ -71,7 +65,6 @@ function nudge.right(d)
 end
 
 function nudge.narrower(d)
-    local step = config:get("slide.step", 10)
     return {
         x = d.x,
         y = d.y,

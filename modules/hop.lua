@@ -1,43 +1,28 @@
-local monitors = import('utils/monitors')
-
-local hop_function = {}
-
-function hop_function.up()
-   window.focusedwindow():focuswindow_north()
-end
-
-function hop_function.down()
-   window.focusedwindow():focuswindow_south()
-end
-
-function hop_function.left()
-   window.focusedwindow():focuswindow_west()
-end
-
-function hop_function.right()
-   window.focusedwindow():focuswindow_east()
-end
-
 local function module_init()
-    local mash = config:get("hop.mash", { "cmd", "ctrl", "alt" })
+    local mash = config:get("hop.mash", { "cmd", "ctrl", "alt", "shift" })
     local keys = config:get("hop.keys", {
-        UP = "up",
-        DOWN = "down",
-        LEFT = "left",
-        RIGHT = "right",
+        UP = "north",
+        DOWN = "south",
+        LEFT = "west",
+        RIGHT = "east",
     })
-   
-   for key, direction_string in pairs(keys) do
-        local fn = hop_function[direction_string]
 
+    for key, direction_string in pairs(keys) do
+        local fn = window['focuswindow_' .. direction_string]
+        if fn == nil then
+            error("The direction must be one of north, south, east, or west. Not " .. direction_string)
+        end
 
-       --DOWN = "down",
-        ----LEFT = "left",
-        --RIGHT = "right",
-        hotkey.bind(mash, key, fn)
-   end
+        hotkey.bind(mash, key, function()
+            local win = window.focusedwindow()
+            if win == nil then
+                return
+            end
+            fn(win)
+        end)
+    end
 end
- 
+
 
 return {
     init = module_init
