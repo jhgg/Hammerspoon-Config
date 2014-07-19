@@ -1,4 +1,4 @@
-local default_matcher = import('utils/fuzzy_match')
+local default_matcher = import('utils/matchers/fuzzy')
 
 local default_opts = {
     -- Matching functions

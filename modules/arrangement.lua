@@ -94,11 +94,33 @@ local function init_module()
         end
 
         if arrangement.key ~= nil then
-            hotkey.bind(arrangement.mash or { "cmd", "ctrl", "alt" }, arrangement.key, function()
-                handle_arrangement(arrangement)
-            end)
+            hotkey.bind(arrangement.mash or { "cmd", "ctrl", "alt" }, arrangement.key, fnutils.partial(handle_arrangement, arrangement))
         end
     end
+
+    if config:get('arrangements.fuzzy_search', false) then
+        local mash = config:get('arrangements.fuzzy_search.mash', {"ctrl", "alt", "cmd"})
+        local key = config:get('arrangements.fuzzy_search.key', "F")
+
+        local match_dialogue = import('utils/match_dialogue')
+
+        local matcher = match_dialogue(function()
+            local list = fnutils.filter(config.arrangements, function(arrangement) return arrangement.name ~= nil end)
+            return fnutils.map(list, function(arrangement)
+                return {
+                    string = arrangement.name,
+                    arrangement = arrangement
+                }
+            end)
+        end, function(match)
+            handle_arrangement(match.arrangement)
+        end)
+
+        hotkey.bind(mash, key, fnutils.partial(matcher.show, matcher))
+
+    end
+
+
 end
 
 local function init_menu()

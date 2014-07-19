@@ -22,6 +22,10 @@ config.autolaunch = true
 
 -- Window arrangements.
 config.arrangements = {
+    fuzzy_search = {
+        mash = {"cmd", "ctrl", "alt"},
+        key = "Z"
+    },
     {
         name = "zen",
         alert = true,
