@@ -21,7 +21,7 @@ I've written a few utilities to take care of some general purpose functionality:
  * `utils/inspect.lua` - Table inspector from http://github.com/kikito/inspect.lua
  * `utils/monitors.lua` - Monitor detection & window positioning helpers.
  * `utils/position.lua` - Functions to resize a window within a screen.
- * `utils/fuzzy_match.lua` - A shitty fuzzy matching & scoring function.
+ * `utils/matchers/match.lua` - A shitty fuzzy matching & scoring function.
  * `utils/match_dialgoue.lua` - Utility to create a specialized text view that can be used to do fuzzy match navigating (or menus or whatever.. see `utils/fuzzy_match.lua`, and `modules/app_selector.lua`).
  * `utils/nudge.lua` - Utility functions to nudge a window. Thanks @josheschulz.
  
