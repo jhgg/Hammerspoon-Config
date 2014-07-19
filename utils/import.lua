@@ -6,7 +6,7 @@
 
 local import = {}
 
-local impot_mt = {
+local import_mt = {
     __call = function(_, ...) return import.import(...) end
 }
 
@@ -51,6 +51,6 @@ function import.import(name)
     error("No module " .. name .. " found.")
 end
 
-setmetatable(import, impot_mt)
+setmetatable(import, import_mt)
 
 return import
