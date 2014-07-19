@@ -1,7 +1,7 @@
 Hydra-Config
 ============
 
-A more modular and extensible take on a Hydra configuration. 
+A more modular and extensible take on a [Hydra](https://github.com/sdegutis/hydra) configuration.
 
 #### Design Consideraitons
  
