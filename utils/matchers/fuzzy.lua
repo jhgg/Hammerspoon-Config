@@ -1,3 +1,6 @@
+-- Fast, linear fuzzy matcher used with match_dialogue.lua
+-- i.e. will match gce to /G/oogle /C/hrom/e/.
+
 local function fuzzy_match(needle, haystack)
     local needle_idx = 1
     local needle_char = needle[needle_idx]

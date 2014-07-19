@@ -1,7 +1,7 @@
--- Fast, linear matcher used with match_dialogue.lua
--- i.e. will match oogle to G/oogle/ Chrome.
+-- Fast, startswith matcher.
+-- Will match goog to /Goog/le Chrome.
 
-local function contain_match(needle, haystack)
+local function startswith_match(needle, haystack)
     local needle_idx = 1
     local needle_char = needle[needle_idx]
     local match_indexes = {}
@@ -20,11 +20,10 @@ local function contain_match(needle, haystack)
 
             needle_char = needle[needle_idx]
 
-        elseif needle_idx > 1 then
-
-            needle_idx = 1
-            needle_char = needle[needle_idx]
+        else
+            return nil
         end
+
     end
 
     if needle_idx > #needle then
@@ -36,7 +35,7 @@ end
 
 
 return {
-    match = contain_match,
+    match = startswith_match,
     score = import('utils/matchers/fuzzy').score
 }
 
