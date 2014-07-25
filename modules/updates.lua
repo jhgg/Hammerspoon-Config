@@ -17,7 +17,7 @@ end
 -- save the time when updates are checked
 local function checkforupdates()
     hydra.updates.check(updates_available)
-    settings.set('lastcheckedupdates', os.time())
+    hydra.settings.set('lastcheckedupdates', os.time())
 end
 
 local function module_init()
