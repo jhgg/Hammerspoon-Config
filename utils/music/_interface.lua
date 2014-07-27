@@ -1,7 +1,8 @@
 local interface = {}
 
 function interface:tell(cmd)
-    return hydra.exec('osascript -e \'tell application "' .. self.app_name .. '" to ' .. cmd .. "'")
+    local success, result = hydra.runapplescript('tell application "' .. self.app_name .. '" to ' .. cmd)
+    return success and result or nil
 end
 
 function interface:play()
@@ -25,13 +26,10 @@ function interface:previous()
 end
 
 function interface:currentTrack()
-    local artist = self:tell('get the artist of the current track')
-    local album = self:tell('get the album of the current track')
-    local track = self:tell('get the name of the current track')
     return {
-        artist = artist,
-        track = track,
-        album = album
+        artist = self:tell('get the artist of the current track'),
+        track = self:tell('get the name of the current track'),
+        album = self:tell('get the album of the current track')
     }
 end
 
