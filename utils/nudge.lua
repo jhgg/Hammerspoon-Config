@@ -32,7 +32,7 @@ function nudge.down(d)
     return {
         x = d.x,
         h = math.max(d.h - step, 0),
-        y = y.h,
+        y = d.h,
         w = d.w
     }
 end
@@ -73,4 +73,4 @@ function nudge.narrower(d)
     }
 end
 
-return nudge 
+return nudge
