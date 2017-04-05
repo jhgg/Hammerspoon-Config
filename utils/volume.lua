@@ -1,29 +1,30 @@
 local volume = {}
+local audio = hs.audiodevice
 
 function volume.mute()
-    local dev = audio.defaultoutputdevice()
-    return dev and dev:setmuted(true)
+    local dev = audio.defaultOutputDevice()
+    return dev and dev:setMuted(true)
 end
 
 function volume.unmute()
-    local dev = audio.defaultoutputdevice()
-    return dev and dev:setmuted(false)
+    local dev = audio.defaultOutputDevice()
+    return dev and dev:setMuted(false)
 end
 
 function volume.muted()
-    local dev = audio.defaultoutputdevice()
+    local dev = audio.defaultOutputDevice()
     return dev and dev:muted()
 end
 
 function volume.increment()
-    local dev = audio.defaultoutputdevice()
+    local dev = audio.defaultOutputDevice()
     if dev == nil then
         return nil
     end
 
     local volume = dev:volume()
     volume = math.min(volume + 6.25, 100)
-    if dev:setvolume(volume) then
+    if dev:setVolume(volume) then
         return volume
     end
 
@@ -31,14 +32,14 @@ function volume.increment()
 end
 
 function volume.decrement()
-    local dev = audio.defaultoutputdevice()
+    local dev = audio.defaultOutputDevice()
     if dev == nil then
         return nil
     end
 
     local volume = dev:volume()
     volume = math.max(volume - 6.25, 0)
-    if dev:setvolume(volume) then
+    if dev:setVolume(volume) then
         return volume
     end
 
@@ -46,12 +47,12 @@ function volume.decrement()
 end
 
 function volume.set(volume)
-    local dev = audio.defaultoutputdevice()
+    local dev = audio.defaultOutputDevice()
     if dev == nil then
         return nil
     end
 
-    return dev:setvolume(volume)
+    return dev:setVolume(volume)
 end
 
 return volume

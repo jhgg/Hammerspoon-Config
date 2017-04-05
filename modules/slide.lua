@@ -1,6 +1,8 @@
 local nudge = import('utils/nudge')
+local hotkey = hs.hotkey
+local window = hs.window
 
-local function module_init()
+local function moduleInit()
     local mash = config:get("slide.mash", { "cmd", "ctrl", "alt" })
     local keys = config:get("slide.keys", {
         UP = "shorter",
@@ -9,28 +11,28 @@ local function module_init()
         RIGHT = "wider",
     })
 
-    for key, direction_string in pairs(keys) do
-        local nudge_fn = nudge[direction_string]
+    for key, directionString in pairs(keys) do
+        local nudgeFn = nudge[directionString]
 
 
-        if nudge_fn == nil then
-            error("arrow: " .. direction_string .. " is not a valid direction")
+        if nudgeFn == nil then
+            error("arrow: " .. directionString .. " is not a valid direction")
         end
 
         hotkey.bind(mash, key, function()
-            local win = window.focusedwindow()
+            local win = window.focusedWindow()
             if win == nil then
                 return
             end
 
-            local dimensions = win:focusedwindow():frame()
-            local newframe = nudge_fn(dimensions)
+            local dimensions = win:frame()
+            local newframe = nudgeFn(dimensions)
 
-            win:setframe(newframe)
+            win:setFrame(newframe)
         end)
     end
 end
 
 return {
-    init = module_init
+    init = moduleInit
 }

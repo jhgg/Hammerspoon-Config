@@ -1,7 +1,9 @@
 local dimensions__proto = {}
 local dimensions__mt = { __index = dimensions__proto }
+local screen = hs.screen
+local fnutils = hs.fnutils
 
-function dimensions__proto:relative_to(position)
+function dimensions__proto:relativeTo(position)
     if position._relative ~= nil then
         return position
     end
@@ -15,12 +17,12 @@ function dimensions__proto:relative_to(position)
     }
 end
 
-function dimensions__proto:relative_window_position(win)
+function dimensions__proto:relativeWindowPosition(win)
     local frame = win:frame()
-    local screen = win:screen()
-    local screenframe = screen:frame_without_dock_or_menu()
+    local winScreen = win:screen()
+    local screenframe = winScreen:frame()
 
-    return self:relative_to({
+    return self:relativeTo({
         w = frame.w,
         h = frame.h,
         x = frame.x - screenframe.x,
@@ -29,15 +31,15 @@ function dimensions__proto:relative_window_position(win)
 
 end
 
-function dimensions__proto:translate_from(position_func, translation_table)
-    if type(position_func) == "string" then
-        position_func = import('utils/position')[position_func]
+function dimensions__proto:translateFrom(positionFunc, translationTable)
+    if type(positionFunc) == "string" then
+        positionFunc = import('utils/position')[positionFunc]
     end
 
-    local position = position_func(self)
+    local position = positionFunc(self)
     position._relative = true
 
-    for k, v in pairs(translation_table) do
+    for k, v in pairs(translationTable) do
         position[k] = position[k] + v
     end
 
@@ -45,10 +47,10 @@ function dimensions__proto:translate_from(position_func, translation_table)
 end
 
 
-local function get_screen_dimensions(screen)
+local function getScreenDimensions(winScreen)
 
-    local dim = screen:frame_without_dock_or_menu()
-    local frame = screen:frame_including_dock_and_menu()
+    local dim = winScreen:frame()
+    local frame = winScreen:fullFrame()
 
     local dimensions = {
         w = dim.w,
@@ -67,55 +69,55 @@ local function get_screen_dimensions(screen)
     return dimensions
 end
 
-local function get_screen_dimensions_at_index(index)
+local function getScreenDimensionsAtIndex(index)
     local screen = screen.allscreens()[index]
     if screen == nil then
         error("Cannot find screen with index " .. index)
     end
 
-    return get_screen_dimensions(screen)
+    return getScreenDimensions(screen)
 end
 
-local function autodiscover_monitors(rows)
-    local screens = screen.allscreens()
-    local primary_screen = fnutils.find(screens, function(screen)
-        local dim = screen:frame_including_dock_and_menu()
+local function autodiscoverMonitors(rows)
+    local screens = screen.allScreens()
+    local primaryScreen = fnutils.find(screens, function(winScreen)
+        local dim = winScreen:fullFrame()
         return dim.x == 0 and dim.y == 0
     end)
-    local screen_table = {}
-    local reference_screen_frame = primary_screen:frame_including_dock_and_menu()
+    local screenTable = {}
+    local referenceScreenFrame = primaryScreen:fullFrame()
 
     for _ = 1, rows do
-        local monitors_in_row = fnutils.filter(screens, function(screen)
-            return screen:frame_including_dock_and_menu().y == reference_screen_frame.y
+        local monitorsInRow = fnutils.filter(screens, function(winScreen)
+            return winScreen:fullFrame().y == referenceScreenFrame.y
         end)
 
-        table.sort(monitors_in_row, function(a, b)
-            return a:frame_including_dock_and_menu().x < b:frame_including_dock_and_menu().x
+        table.sort(monitorsInRow, function(a, b)
+            return a:fullFrame().x < b:fullFrame().x
         end)
 
-        fnutils.concat(screen_table, monitors_in_row)
-        reference_screen_frame.y = reference_screen_frame.y - reference_screen_frame.h
+        fnutils.concat(screenTable, monitorsInRow)
+        referenceScreenFrame.y = referenceScreenFrame.y - referenceScreenFrame.h
     end
 
-    return fnutils.map(screen_table, function(screen)
+    return fnutils.map(screenTable, function(screen)
         return {
-            dimensions = get_screen_dimensions(screen)
+            dimensions = getScreenDimensions(screen)
         }
     end)
 end
 
 local monitors = {
-    get_screen_dimensions = get_screen_dimensions,
-    configured_monitors = {}
+    getScreenDimensions = getScreenDimensions,
+    configuredMonitors = {}
 }
 
 if config:get("monitors.autodiscover", false) then
-    monitors.configured_monitors = autodiscover_monitors(config:get("monitors.rows", 1))
+    monitors.configuredMonitors = autodiscoverMonitors(config:get("monitors.rows", 1))
 else
     for i, v in ipairs(config:get("monitors", {})) do
-        monitors.configured_monitors[i] = {
-            dimensions = get_screen_dimensions_at_index(v)
+        monitors.configuredMonitors[i] = {
+            dimensions = getScreenDimensionsAtIndex(v)
         }
     end
 end

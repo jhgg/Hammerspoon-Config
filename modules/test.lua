@@ -1,7 +1,7 @@
-local function module_init()
+local function moduleInit()
 end
 
 return {
-    init = module_init
+    init = moduleInit
 }
 

@@ -1,7 +1,9 @@
 local position = import('utils/position')
 local monitors = import('utils/monitors')
+local hotkey = hs.hotkey
+local window = hs.window
 
-local function module_init()
+local function moduleInit()
     local mash = config:get("arrows.mash", { "cmd", "ctrl", "alt" })
     local keys = config:get("arrows.keys", {
         UP = "top",
@@ -9,29 +11,29 @@ local function module_init()
         LEFT = "left",
         RIGHT = "right",
         SPACE = "full",
-        PAD7 = "left_third",
-        PAD8 = "middle_third",
-        PAD9 = "right_third",
+        PAD7 = "leftThird",
+        PAD8 = "middleThird",
+        PAD9 = "rightThird",
     })
 
-    for key, position_string in pairs(keys) do
-        local position_fn = position[position_string]
+    for key, positionString in pairs(keys) do
+        local positionFn = position[positionString]
 
-        if position_fn == nil then
-            error("arrow: " .. position_string .. " is not a valid position")
+        if positionFn == nil then
+            error("arrow: " .. positionString .. " is not a valid position")
         end
 
         hotkey.bind(mash, key, function()
-            local win = window.focusedwindow()
+            local win = window.focusedWindow()
             if win == nil then
                 return
             end
 
             local screen = win:screen()
-            local dimensions = monitors.get_screen_dimensions(screen)
-            local newframe = position_fn(dimensions)
+            local dimensions = monitors.getScreenDimensions(screen)
+            local newframe = positionFn(dimensions)
 
-            win:setframe(newframe)
+            win:setFrame(newframe)
         end)
 
     end
@@ -39,5 +41,5 @@ local function module_init()
 end
 
 return {
-    init = module_init
+    init = moduleInit
 }

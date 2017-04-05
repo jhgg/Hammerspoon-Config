@@ -12,17 +12,17 @@ local import_mt = {
 
 local cache = {}
 
-function import.clear_cache()
+function import.clearCache()
     for k in pairs(cache) do
         cache[k] = nil
     end
 end
 
-function import.cache_size()
+function import.cacheSize()
     return #cache
 end
 
-function import.cached_modules()
+function import.cachedModules()
     local t = {}
     for k in pairs(cache) do
         table.insert(t, k)
@@ -38,9 +38,10 @@ function import.import(name)
 
     for path in string.gmatch(package.path, "[^;]+") do
         local file = path:gsub("?", name)
-        local exists, is_dir = hydra.fileexists(file)
+        local attributes = hs.fs.attributes(file)
+        local is_dir = attributes and attributes.mode == 'directory'
 
-        if exists and not is_dir then
+        if attributes ~= nil and not is_dir then
             local module = dofile(file)
             cache[name] = module
 

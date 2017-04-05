@@ -4,12 +4,10 @@ config.modules = {
     "arrangement",
     "monitors",
     "repl",
-    "updates",
     "reload",
     "arrows",
     "lock",
-    "fullscreen",
-    "app_selector"
+    "fullscreen"
 }
 
 -- Maps monitor id -> screen index.
@@ -22,7 +20,7 @@ config.autolaunch = true
 
 -- Window arrangements.
 config.arrangements = {
-    fuzzy_search = {
+    fuzzySearch = {
         mash = {"cmd", "ctrl", "alt"},
         key = "Z"
     },
@@ -33,17 +31,17 @@ config.arrangements = {
         key = "A",
         arrangement = {
             {
-                app_title = "^Mail",
+                appTitle = "^Mail",
                 monitor = 1,
                 position = "full_screen",
             },
             {
-                app_title = "^Slack",
+                appTitle = "^Slack",
                 monitor = 4,
                 position = "left"
             },
             {
-                app_title = "^Messages",
+                appTitle = "^Messages",
                 monitor = 4,
                 position = function(d)
                     return d:translate_from('bottom_right', {
@@ -53,7 +51,7 @@ config.arrangements = {
                 end
             },
             {
-                app_title = "^ChronoMate",
+                appTitle = "^ChronoMate",
                 monitor = 4,
                 position = function(d)
                     return d:translate_from('top_right', {
@@ -62,7 +60,7 @@ config.arrangements = {
                 end
             },
             {
-                app_title = "^Spotify",
+                appTitle = "^Spotify",
                 monitor = 6,
                 position = "full_screen",
             }

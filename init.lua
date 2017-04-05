@@ -2,13 +2,13 @@
 -- Save this as ~/.hydra/init.lua and choose Reload Config from the menu
 
 import = require('utils/import')
-import.clear_cache()
+import.clearCache()
 
 config = import('config')
 
-function config:get(key_path, default)
+function config:get(keyPath, default)
     local root = self
-    for part in string.gmatch(key_path, "[^\\.]+") do
+    for part in string.gmatch(keyPath, "[^\\.]+") do
         root = root[part]
         if root == nil then
             return default
@@ -20,8 +20,8 @@ end
 local modules = {}
 
 for _, v in ipairs(config.modules) do
-    local module_name = 'modules/' .. v
-    local module = import(module_name)
+    local moduleName = 'modules/' .. v
+    local module = import(moduleName)
 
     if type(module.init) == "function" then
         module.init()
@@ -30,53 +30,55 @@ for _, v in ipairs(config.modules) do
     table.insert(modules, module)
 end
 
+--
+--hydra.menu.show(function()
+--
+--    local menu = {
+--        { title = "Reload Config", fn = hydra.reload },
+--        { title = "-" }
+--    }
+--
+--    local menus_inserted = 0
+--
+--    for _, module in ipairs(modules) do
+--        if type(module.menu) == "function" then
+--            fnutils.concat(menu, module.menu())
+--            menus_inserted = menus_inserted + 1
+--
+--        elseif type(module.menu) == "table" then
+--            fnutils.concat(menu, module.menu)
+--            menus_inserted = menus_inserted + 1
+--        end
+--    end
+--
+--    if menus_inserted > 0 then
+--        table.insert(menu, { title = "-" })
+--    end
+--
+--    fnutils.concat(menu, {
+--        { title = "About", fn = hydra.showabout },
+--        { title = "Quit Hydra", fn = os.exit },
+--    })
+--
+--    return menu
+--end)
 
-hydra.menu.show(function()
 
-    local menu = {
-        { title = "Reload Config", fn = hydra.reload },
-        { title = "-" }
-    }
-
-    local menus_inserted = 0
-
-    for _, module in ipairs(modules) do
-        if type(module.menu) == "function" then
-            fnutils.concat(menu, module.menu())
-            menus_inserted = menus_inserted + 1
-
-        elseif type(module.menu) == "table" then
-            fnutils.concat(menu, module.menu)
-            menus_inserted = menus_inserted + 1
-        end
-    end
-
-    if menus_inserted > 0 then
-        table.insert(menu, { title = "-" })
-    end
-
-    fnutils.concat(menu, {
-        { title = "About", fn = hydra.showabout },
-        { title = "Quit Hydra", fn = os.exit },
-    })
-
-    return menu
-end)
-
-hydra.autolaunch.set(config:get("autolaunch", false))
+hs.window.animationDuration = config:get('window.animationDuration', 0)
+hs.autoLaunch(config:get("autolaunch", false))
 
 local buf = {}
 
-if hydra.was_loaded == nil then
-    hydra.was_loaded = true
-    table.insert(buf, "Hydra loaded: ")
+if hs._wasLoaded == nil then
+    hs._wasLoaded = true
+    table.insert(buf, "Hammerspoon loaded: ")
 else
-    table.insert(buf, "Hydra re-loaded: ")
+    table.insert(buf, "Hammerspoon re-loaded: ")
 end
 
 table.insert(buf, "loaded " .. #modules .. " modules.")
 
-hydra.alert(table.concat(buf))
+hs.alert.show(table.concat(buf))
 
 
 

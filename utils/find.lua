@@ -5,48 +5,50 @@ local find = {
 }
 
 local geom = import('utils/geometry')
+local fnutils = hs.fnutils
+local audio = hs.audiodevice
 
-function find.window.by_title(title)
+function find.window.byTitle(title)
     return fnutils.find(window.allwindows(), function(window)
         return string.match(window:title(), title) ~= nil
     end)
 end
 
-function find.window.underneath_mouse()
+function find.window.underneathMouse()
     local pos = mouse.get()
     return fnutils.find(window.orderedwindows(), function(window)
-        return geom.point_in_rect(window:frame(), pos)
+        return geom.pointInRect(window:frame(), pos)
     end)
 end
 
-function find.window.by_application_title(title)
+function find.window.byApplicationTitle(title)
     return fnutils.find(window.allwindows(), function(window)
         return string.match(window:application():title(), title) ~= nil
     end)
 end
 
-function find.windows.by_title(title)
+function find.windows.byTitle(title)
     return fnutils.filter(window.allwindows(), function(window)
         return string.match(window:title(), title) ~= nil
     end)
 end
 
-function find.windows.by_application_title(title)
+function find.windows.byApplicationTitle(title)
     return fnutils.filter(window.allwindows(), function(window)
         return string.match(window:application():title(), title) ~= nil
     end)
 end
 
-function find.windows.underneath_mouse()
+function find.windows.underneathMouse()
     local pos = mouse.get()
     return fnutils.filter(window.orderedwindows(), function(window)
-        return geom.point_in_rect(window:frame(), pos)
+        return geom.pointInRect(window:frame(), pos)
     end)
 end
 
-function find.audio_device.by_name(name)
-    return fnutils.find(audio.alloutputdevices(), function(device)
-        return string.match(audio:name(), name) ~= nil
+function find.audio_device.yNameby_name(name)
+    return fnutils.find(audio.allOutputDevices(), function(device)
+        return string.match(device:name(), name) ~= nil
     end)
 end
 

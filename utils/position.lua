@@ -43,7 +43,7 @@ function position.bottom(d)
 end
 
 -- Top left quarter
-function position.top_left(d)
+function position.topLeft(d)
     return {
         x = d.x,
         y = d.y,
@@ -53,7 +53,7 @@ function position.top_left(d)
 end
 
 -- Top right quarter
-function position.top_right(d)
+function position.topRight(d)
     return {
         x = d.x + d.w / 2,
         y = d.y,
@@ -63,7 +63,7 @@ function position.top_right(d)
 end
 
 -- Bottom left quarter
-function position.bottom_left(d)
+function position.bottomLeft(d)
     return {
         x = d.x,
         y = d.y + d.h / 2,
@@ -73,7 +73,7 @@ function position.bottom_left(d)
 end
 
 -- Bottom right quarter
-function position.bottom_right(d)
+function position.bottomRight(d)
     return {
         x = d.x + d.w / 2,
         y = d.y + d.h / 2,
@@ -93,7 +93,7 @@ function position.full(d)
 end
 
 -- Left 1/3rd.
-function position.left_third(d)
+function position.leftThird(d)
     return {
         x = d.x,
         y = d.y,
@@ -103,7 +103,7 @@ function position.left_third(d)
 end
 
 -- Left 1/3rd.
-function position.middle_third(d)
+function position.middleThird(d)
     return {
         x = d.x + (d.w / 3),
         y = d.y,
@@ -113,7 +113,7 @@ function position.middle_third(d)
 end
 
 -- Left 2/3rd
-function position.left_two_thirds(d)
+function position.leftTwoThirds(d)
     return {
         x = d.x,
         y = d.y,
@@ -123,7 +123,7 @@ function position.left_two_thirds(d)
 end
 
 -- Right 1/3rd
-function position.right_third(d)
+function position.rightThird(d)
     return {
         x = d.x + ((d.w / 3) * 2),
         y = d.y,
@@ -133,7 +133,7 @@ function position.right_third(d)
 end
 
 -- Right 2/3rds.
-function position.right_two_thirds(d)
+function position.rightTwoThirds(d)
     return {
         x = d.x + (d.w / 3),
         y = d.y,

@@ -1,11 +1,12 @@
-local match_dialgoue = import('utils/match_dialogue')
+local match_dialgoue = import('utils/matchDialogue')
 local geom = import('utils/geometry')
+local window = hs.window
 
-local function module_init()
-    local function match_data_source()
+local function moduleInit()
+    local function matchDataSource()
         local results = {}
 
-        for _, win in ipairs(window.allwindows()) do
+        for _, win in ipairs(window.allWindows()) do
             local title = win:title()
 
             if title:len() > 0 then
@@ -18,23 +19,23 @@ local function module_init()
         return results
     end
 
-    local function match_selected(match)
+    local function matchSelected(match)
         match.window:focus()
 
-        if config:get('app_selector.move_mouse', true) then
-            local center = geom.rect_midpoint(match.window:frame())
+        if config:get('appSelector.mouseMove', true) then
+            local center = geom.rectMidpoint(match.window:frame())
             mouse.set(center)
         end
     end
 
-    local matcher = match_dialgoue(match_data_source, match_selected)
+    local matcher = match_dialgoue(matchDataSource, matchSelected)
 
-    hotkey.bind(config:get('app_selector.mash', { "ctrl" }), config:get('app_selector.key', "tab"), function()
+    hotkey.bind(config:get('appSelector.mash', { "ctrl" }), config:get('appSelector.key', "tab"), function()
         matcher:show()
     end)
 end
 
 return {
-    init = module_init
+    init = moduleInit
 }
 

@@ -1,36 +1,38 @@
 local find = import('utils/find')
-local monitors = import('utils/monitors').configured_monitors
+local monitors = import('utils/monitors').configuredMonitors
 local position = import('utils/position')
+local fnutils = hs.fnutils
+local hotkey = hs.hotkey
 
-local function get_window(arrangement_table)
-    if arrangement_table.app_title ~= nil then
-        return find.window.by_application_title(arrangement_table.app_title)
+local function getWindow(arrangementTable)
+    if arrangementTable.appTitle ~= nil then
+        return find.window.byApplicationTitle(arrangementTable.appTitle)
     end
 
-    if arrangement_table.title ~= nil then
-        return find.window.by_title(arrangement_table.app_title)
+    if arrangementTable.title ~= nil then
+        return find.window.byTitle(arrangementTable.appTitle)
     end
 
-    error("Arrangement table needs: app_title or title to be set")
+    error("Arrangement table needs: appTitle or title to be set")
 end
 
 
 local function arrange(arrangement)
     fnutils.map(arrangement, function(item)
 
-        local window = get_window(item)
+        local window = getWindow(item)
         if window == nil then
             return
         end
 
         local monitor = item.monitor
-        local item_position = item.position
+        local itemPosition = item.position
 
         if monitor == nil then
             error("arrangement table does not have monitor")
         end
 
-        if item_position == nil then
+        if itemPosition == nil then
             error("arrangement table does not have position")
         end
 
@@ -38,43 +40,43 @@ local function arrange(arrangement)
             error("monitor " .. monitor .. " does not exist")
         end
 
-        local win_full = window:isfullscreen()
+        local winFull = window:isFullScreen()
 
-        if item_position ~= "full_screen" and win_full then
-                    window:setfullscreen(false)
+        if itemPosition ~= "fullScreen" and winFull then
+            window:setFullScreen(false)
         end
 
-        if type(item_position) == "string" then
+        if type(itemPosition) == "string" then
 
-            if item_position == "full_screen" then
-                window:setframe(monitors[monitor].dimensions.f)
+            if itemPosition == "fullScreen" then
+                window:setFrame(monitors[monitor].dimensions.f)
 
-                if not win_full then
-                    window:setfullscreen(true)
+                if not winFull then
+                    window:setFullScreen(true)
                 end
 
             else
 
-                window:setframe(position[item_position](monitors[monitor].dimensions))
+                window:setFrame(position[itemPosition](monitors[monitor].dimensions))
             end
 
-        elseif type(item_position) == "function" then
-            window:setframe(monitors[monitor].dimensions:relative_to(item_position(monitors[monitor].dimensions, {
+        elseif type(itemPosition) == "function" then
+            window:setFrame(monitors[monitor].dimensions:relativeTo(itemPosition(monitors[monitor].dimensions, {
                 monitor = monitors[monitor],
                 window = window,
                 position = position
             })))
 
-        elseif type(item_position) == "table" then
-            window:setframe(monitors[monitor].dimensions:relative_to(item_position))
+        elseif type(itemPosition) == "table" then
+            window:setFrame(monitors[monitor].dimensions:relativeTo(itemPosition))
 
         else
-            error("position cannot be a " .. type(item_position))
+            error("position cannot be a " .. type(itemPosition))
         end
     end)
 end
 
-local function handle_arrangement(arrangement)
+local function handleArrangement(arrangement)
     arrange(arrangement.arrangement)
 
     if arrangement.alert == true then
@@ -82,7 +84,7 @@ local function handle_arrangement(arrangement)
     end
 end
 
-local function init_module()
+local function initModule()
     if config.arrangements == nil then
         notify.show("Arrangements has no available configs", "", "Set some configs set in config.arrangements or unload this module", "")
         return
@@ -94,17 +96,17 @@ local function init_module()
         end
 
         if arrangement.key ~= nil then
-            hotkey.bind(arrangement.mash or { "cmd", "ctrl", "alt" }, arrangement.key, fnutils.partial(handle_arrangement, arrangement))
+            hotkey.bind(arrangement.mash or { "cmd", "ctrl", "alt" }, arrangement.key, fnutils.partial(handleArrangement, arrangement))
         end
     end
 
-    if config:get('arrangements.fuzzy_search', false) then
-        local mash = config:get('arrangements.fuzzy_search.mash', {"ctrl", "alt", "cmd"})
-        local key = config:get('arrangements.fuzzy_search.key', "F")
+    if config:get('arrangements.fuzzySearch', false) then
+        local mash = config:get('arrangements.fuzzySearch.mash', {"ctrl", "alt", "cmd"})
+        local key = config:get('arrangements.fuzzySearch.key', "F")
 
-        local match_dialogue = import('utils/match_dialogue')
+        local matchDialog = import('utils/matchDialogue')
 
-        local matcher = match_dialogue(function()
+        local matcher = matchDialog(function()
             local list = fnutils.filter(config.arrangements, function(arrangement) return arrangement.name ~= nil end)
             return fnutils.map(list, function(arrangement)
                 return {
@@ -113,7 +115,7 @@ local function init_module()
                 }
             end)
         end, function(match)
-            handle_arrangement(match.arrangement)
+            handleArrangement(match.arrangement)
         end)
 
         hotkey.bind(mash, key, fnutils.partial(matcher.show, matcher))
@@ -123,7 +125,7 @@ local function init_module()
 
 end
 
-local function init_menu()
+local function initMenu()
     if config.arrangements == nil then
         return
     end
@@ -135,7 +137,7 @@ local function init_menu()
             table.insert(menu, {
                 title = "Arrange: " .. arrangement.name,
                 fn = function()
-                    handle_arrangement(arrangement)
+                    handleArrangement(arrangement)
                 end
             })
         end
@@ -149,6 +151,6 @@ local function init_menu()
 end
 
 return {
-    init = init_module,
-    menu = init_menu
+    init = initModule,
+    menu = initMenu
 }
