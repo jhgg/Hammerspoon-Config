@@ -1,13 +1,7 @@
 Hydra-Config
 ============
 
-A more modular and extensible take on a [Hydra](https://github.com/sdegutis/hydra) configuration.
-
-#### Design Consideraitons
- 
-I've opted against using the hydra.ext namespace, as I have written my own importer to take care of this. Ideally, everything should be erased, and re-loaded upon config reload. This is something hydra.ext doesn't really take care of in a way that I like.
-
-**NOTE: This hydra config uses the latest features (some of which I contributed) to Hydra. If it does not work on the latest release of hydra, you'll need to compile the latest version of Hydra from git and run it yourself.**
+A more modular and extensible take on a [Hammerspoon](https://github.com/Hammerspoon/hammerspoon) configuration.
 
 ### Important Files
 
@@ -22,14 +16,14 @@ I've written a few utilities to take care of some general purpose functionality:
  * `utils/monitors.lua` - Monitor detection & window positioning helpers.
  * `utils/position.lua` - Functions to resize a window within a screen.
  * `utils/matchers/match.lua` - A shitty fuzzy matching & scoring function.
- * `utils/match_dialgoue.lua` - Utility to create a specialized text view that can be used to do fuzzy match navigating (or menus or whatever.. see `utils/fuzzy_match.lua`, and `modules/app_selector.lua`).
+ * `utils/matchDialgoue.lua` - Utility to create a specialized text view that can be used to do fuzzy match navigating (or menus or whatever.. see `utils/fuzzy_match.lua`, and `modules/app_selector.lua`).
  * `utils/nudge.lua` - Utility functions to nudge a window. Thanks @josheschulz.
  * `utils/music/*.lua` - Utility functions for controlling Spotify, iTunes and Rdio.
  
 ### Modules 
-A few modules to handle stuff I needed hydra to do:
+A few modules to handle stuff I needed hammerspoon to do:
 
-* `modules/reload.lua` - Handles reloading hydra.
+* `modules/reload.lua` - Handles reloading hammerspoon.
 * `modules/repl.lua` - Handles launching the repl.
 * `modules/updates.lua` - Handles checking for Hydra updates.
 * `modules/lock.lua` - Handles locking the screen when F13 is pressed.
@@ -46,7 +40,7 @@ A few modules to handle stuff I needed hydra to do:
 
 > Released under MIT license.
 >
-> Copyright (c) 2014 Jacob Heinz
+> Copyright (c) 2017 Jacob Heinz
 >
 > Permission is hereby granted, free of charge, to any person obtaining a copy
 > of this software and associated documentation files (the "Software"), to deal

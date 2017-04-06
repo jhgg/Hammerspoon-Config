@@ -3,13 +3,14 @@ local monitors = import('utils/monitors')
 local geometry = import('utils/geometry')
 local window = hs.window
 local hotkey = hs.hotkey
+local mouse = hs.mouse
 
 local function init_module()
     for id, monitor in pairs(monitors.configuredMonitors) do
 
         hotkey.bind({ "cmd", "ctrl" }, "PAD" .. id, function()
             local midpoint = geometry.rectMidpoint(monitor.dimensions)
-            mouse.set(midpoint)
+            mouse.setAbsolutePosition(midpoint)
         end)
 
         hotkey.bind({ "cmd", "ctrl", "alt" }, "PAD" .. id, function()

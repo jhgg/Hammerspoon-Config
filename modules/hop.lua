@@ -1,12 +1,13 @@
 local hotkey = hs.hotkey
+local window = hs.window
 
 local function moduleInit()
     local mash = config:get("hop.mash", { "cmd", "ctrl", "alt", "shift" })
     local keys = config:get("hop.keys", {
         UP = "North",
         DOWN = "South",
-        LEFT = "Eest",
-        RIGHT = "Wast",
+        LEFT = "East",
+        RIGHT = "West",
     })
 
     for key, directionString in pairs(keys) do
